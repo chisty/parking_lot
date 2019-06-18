@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ParkingLot.App.Models
 {
-    public class ParkingLotData
+    public class CarParkingLot
     {
         private List<int> EmptyLots { get; set; }
         private Dictionary<string, Car> Cars { get; set; }
         private Dictionary<string, List<string>> ColorToRegistrationsMapping { get; set; }
         private Dictionary<string, int> RegistrationToParkingSlotMapping { get; set; }
 
-        public ParkingLotData()
+        public CarParkingLot()
         {
             EmptyLots = new List<int>();
             Cars = new Dictionary<string, Car>();
@@ -25,13 +23,13 @@ namespace ParkingLot.App.Models
             RegistrationToParkingSlotMapping.Add(car.RegistrationNumber, slot);
             Cars.Add(car.RegistrationNumber, car);
 
-            if (ColorToRegistrationsMapping.ContainsKey(car.Color))
+            if (ColorToRegistrationsMapping.ContainsKey(car.Color.ToLower()))
             {
-                ColorToRegistrationsMapping[car.Color].Add(car.RegistrationNumber);
+                ColorToRegistrationsMapping[car.Color.ToLower()].Add(car.RegistrationNumber);
             }
             else
             {
-                ColorToRegistrationsMapping.Add(car.Color, new List<string> { car.RegistrationNumber });
+                ColorToRegistrationsMapping.Add(car.Color.ToLower(), new List<string> { car.RegistrationNumber });
             }
         }
 
@@ -43,7 +41,40 @@ namespace ParkingLot.App.Models
             var car = Cars[registrationNumber];
             Cars.Remove(registrationNumber);
 
-            ColorToRegistrationsMapping[car.Color].Remove(car.RegistrationNumber);
+            ColorToRegistrationsMapping[car.Color.ToLower()].Remove(car.RegistrationNumber);
+        }
+
+        public List<string> GetRegistrationNumbersByCarColor(string color)
+        {
+            if (ColorToRegistrationsMapping.ContainsKey(color.ToLower()) == false) return new List<string>();
+
+            var registrations = ColorToRegistrationsMapping[color.ToLower()];
+            return registrations;
+        }
+
+        public int GetSlotByRegistrationNumber(string registration)
+        {
+            if (RegistrationToParkingSlotMapping.ContainsKey(registration)) return RegistrationToParkingSlotMapping[registration];
+            return 0;
+        }
+
+
+        public List<int> GetSlotNumbersOfCarByColor(string color)
+        {
+            var list= new List<int>();
+            if (ColorToRegistrationsMapping.ContainsKey(color.ToLower()))
+            {
+                var registrations = ColorToRegistrationsMapping[color.ToLower()];
+                foreach (var registration in registrations)
+                {
+                    if (RegistrationToParkingSlotMapping.ContainsKey(registration))
+                    {
+                        list.Add(RegistrationToParkingSlotMapping[registration]);
+                    }
+                }
+            }
+
+            return list;
         }
 
 

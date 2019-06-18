@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ParkingLot.App.Models
+﻿namespace ParkingLot.App.Models
 {
     public class Car
     {

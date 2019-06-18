@@ -5,12 +5,12 @@ namespace ParkingLot.App.CommandHandlers
 {
     public class ParkingLotManager
     {
-        private ParkingLotData ParkingLot { get; }
+        private CarParkingLot CarParkingLot { get; }
         private CommandHandlersFactory CommandHandlersFactory { get; set; }
 
         public ParkingLotManager()
         {
-            ParkingLot = new ParkingLotData();
+            CarParkingLot = new CarParkingLot();
             CommandHandlersFactory= new CommandHandlersFactory();
         }
 
@@ -26,7 +26,7 @@ namespace ParkingLot.App.CommandHandlers
                 var commandHandler = CommandHandlersFactory.GetHandler(line);
                 if (commandHandler != null)
                 {
-                    commandHandler.Handle(line, ParkingLot);
+                    commandHandler.Handle(line, CarParkingLot);
                 }
                 else
                 {

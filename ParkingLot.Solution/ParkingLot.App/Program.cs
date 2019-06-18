@@ -1,6 +1,4 @@
-﻿using System;
-using ParkingLot.App.CommandHandlers;
-using ParkingLot.App.Models;
+﻿using ParkingLot.App.CommandHandlers;
 
 namespace ParkingLot.App
 {
