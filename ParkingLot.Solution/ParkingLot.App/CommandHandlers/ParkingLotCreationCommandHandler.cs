@@ -20,17 +20,4 @@ namespace ParkingLot.App.CommandHandlers
             return input.ToLower().StartsWith("create_parking_lot");
         }
     }
-
-    public class DisplayStatusCommandHandler : ICommandHandler
-    {
-        public void Handle(string input, CarParkingLot carParkingLot)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CanHandleInput(string input)
-        {
-            return false;
-        }
-    }
 }
