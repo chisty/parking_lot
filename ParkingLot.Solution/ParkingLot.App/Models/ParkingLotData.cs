@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 
 namespace ParkingLot.App.Models
 {
-    public class ParkingLot
+    [Export]
+    [PartCreationPolicy(CreationPolicy.Shared)]
+    public class ParkingLotData
     {
         private List<int> EmptyLots { get; set; }
         private Dictionary<string, Car> Cars { get; set; }
         private Dictionary<string, List<string>> ColorToRegistrationsMapping { get; set; }
         private Dictionary<string, int> RegistrationToParkingSlotMapping { get; set; }
 
-        public ParkingLot()
+        public ParkingLotData()
         {
-            EmptyLots= new List<int>();
-            Cars= new Dictionary<string, Car>();
+            EmptyLots = new List<int>();
+            Cars = new Dictionary<string, Car>();
             ColorToRegistrationsMapping = new Dictionary<string, List<string>>();
-            RegistrationToParkingSlotMapping= new Dictionary<string, int>();
+            RegistrationToParkingSlotMapping = new Dictionary<string, int>();
         }
 
         public void ParkCar(Car car, int slot)
@@ -31,7 +34,7 @@ namespace ParkingLot.App.Models
             }
             else
             {
-                ColorToRegistrationsMapping.Add(car.Color, new List<string> {car.RegistrationNumber});
+                ColorToRegistrationsMapping.Add(car.Color, new List<string> { car.RegistrationNumber });
             }
         }
 
@@ -49,7 +52,7 @@ namespace ParkingLot.App.Models
 
         public void SetEmptyLots(int n)
         {
-            for(var i=1; i<=n; i++) EmptyLots.Add(i);
+            for (var i = 1; i <= n; i++) EmptyLots.Add(i);
         }
 
         public int GetNextEmptyLot()
@@ -58,7 +61,7 @@ namespace ParkingLot.App.Models
             if (EmptyLots.Any())
             {
                 lotNumber = EmptyLots.First();
-                EmptyLots.RemoveAt(0);                
+                EmptyLots.RemoveAt(0);
             }
 
             return lotNumber;
