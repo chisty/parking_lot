@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 
 namespace ParkingLot.App.Models
 {
-    [Export]
-    [PartCreationPolicy(CreationPolicy.Shared)]
     public class ParkingLotData
     {
         private List<int> EmptyLots { get; set; }
