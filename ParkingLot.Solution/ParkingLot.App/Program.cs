@@ -17,9 +17,7 @@ namespace ParkingLot.App
             else
             {
                 parkingLotService.Run();
-            }
-
-            Console.ReadKey();
+            }            
         }
     }
 }
