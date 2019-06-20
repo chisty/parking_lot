@@ -5,22 +5,19 @@ namespace ParkingLot.App.CommandHandlers
 {
     public class GetSlotByRegistrationCommandHandler : ICommandHandler
     {
-        public void Handle(string input, CarParkingLot carParkingLot)
+        public void Handle(string input, ParkingLotManager parkingLotManager)
         {
             var tokens = input.Split(' ');
             if (tokens.Length == 2)
             {
-                var slot = carParkingLot.GetSlotByRegistrationNumber(tokens[1]);
-                if (slot > 0)
-                {
-                    Console.WriteLine(slot);
-                }
+                var slot = parkingLotManager.GetSlotByRegistrationNumber(tokens[1]);
+                Console.WriteLine(slot > 0 ? slot.ToString() : "Not found");
             }
         }
 
         public bool CanHandleInput(string input)
         {
-            return input.ToLower().Equals("slot_number_for_registration_number");
+            return input.ToLower().StartsWith("slot_number_for_registration_number");
         }
     }
 }

@@ -5,9 +5,9 @@ namespace ParkingLot.App.CommandHandlers
 {
     public class AllocateParkingCommandHandler : ICommandHandler
     {
-        public void Handle(string input, CarParkingLot carParkingLot)
+        public void Handle(string input, ParkingLotManager parkingLotManager)
         {
-            var firstEmptySlot = carParkingLot.GetNextEmptyLot();
+            var firstEmptySlot = parkingLotManager.GetNextEmptyLot();
             if (firstEmptySlot == 0)
             {
                 Console.WriteLine("Sorry, parking lot is full");
@@ -18,7 +18,7 @@ namespace ParkingLot.App.CommandHandlers
             if (tokens.Length == 3)
             {
                 var car = new Car {RegistrationNumber = tokens[1], Color = tokens[2]};
-                carParkingLot.ParkCar(car, firstEmptySlot);
+                parkingLotManager.ParkCar(car, firstEmptySlot);
                 Console.WriteLine($"Allocated slot number: {firstEmptySlot}");
             }
         }

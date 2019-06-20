@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Linq;
 using ParkingLot.App.Models;
 
 namespace ParkingLot.App.CommandHandlers
 {
     public class GetRegistrationNumberCommandHandler : ICommandHandler
     {
-        public void Handle(string input, CarParkingLot carParkingLot)
+        public void Handle(string input, ParkingLotManager parkingLotManager)
         {
             var tokens = input.Split(' ');
             if (tokens.Length == 2)
             {
-                var registrationsByColor = carParkingLot.GetRegistrationNumbersByCarColor(tokens[1]);                
-                Console.WriteLine(string.Join(", ", registrationsByColor));
+                var registrationsByColor = parkingLotManager.GetRegistrationNumbersByCarColor(tokens[1]);
+                Console.WriteLine(registrationsByColor.Any() ? string.Join(", ", registrationsByColor) : "Not found");
             }
         }
 

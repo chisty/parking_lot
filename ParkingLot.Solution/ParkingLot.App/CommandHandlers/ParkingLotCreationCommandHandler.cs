@@ -5,12 +5,12 @@ namespace ParkingLot.App.CommandHandlers
 {
     public class ParkingLotCreationCommandHandler: ICommandHandler
     {
-        public void Handle(string input, CarParkingLot carParkingLot)
+        public void Handle(string input, ParkingLotManager parkingLotManager)
         {
             var tokens = input.Split(' ');
             if(tokens.Length == 2 && int.TryParse(tokens[1], out var size))
             {
-                carParkingLot.SetEmptyLots(size);
+                parkingLotManager.SetEmptyLots(size);
                 Console.WriteLine($"Created a parking lot with {size} slots");
             }
         }

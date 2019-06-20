@@ -3,24 +3,24 @@ using System.Linq;
 
 namespace ParkingLot.App.Models
 {
-    public class CarParkingLot
+    public class ParkingLotManager
     {
-        private List<int> EmptyLots { get; set; }
+        private List<int> EmptyParkingLots { get; set; }
         private Dictionary<string, Car> Cars { get; set; }
         private Dictionary<string, List<string>> ColorToRegistrationsMapping { get; set; }
-        private Dictionary<string, int> RegistrationToParkingSlotMapping { get; set; }
+        private Dictionary<string, int> RegistrationToParkingLotMapping { get; set; }
 
-        public CarParkingLot()
+        public ParkingLotManager()
         {
-            EmptyLots = new List<int>();
+            EmptyParkingLots = new List<int>();
             Cars = new Dictionary<string, Car>();
             ColorToRegistrationsMapping = new Dictionary<string, List<string>>();
-            RegistrationToParkingSlotMapping = new Dictionary<string, int>();
+            RegistrationToParkingLotMapping = new Dictionary<string, int>();
         }
 
         public void ParkCar(Car car, int slot)
         {
-            RegistrationToParkingSlotMapping.Add(car.RegistrationNumber, slot);
+            RegistrationToParkingLotMapping.Add(car.RegistrationNumber, slot);
             Cars.Add(car.RegistrationNumber, car);
 
             if (ColorToRegistrationsMapping.ContainsKey(car.Color.ToLower()))
@@ -35,13 +35,14 @@ namespace ParkingLot.App.Models
 
         public void LeaveParking(int slot)
         {
-            var registrationNumber = RegistrationToParkingSlotMapping.FirstOrDefault(f => f.Value == slot).Key;
-            RegistrationToParkingSlotMapping.Remove(registrationNumber);
+            var registrationNumber = RegistrationToParkingLotMapping.FirstOrDefault(f => f.Value == slot).Key;
+            RegistrationToParkingLotMapping.Remove(registrationNumber);
 
             var car = Cars[registrationNumber];
             Cars.Remove(registrationNumber);
 
             ColorToRegistrationsMapping[car.Color.ToLower()].Remove(car.RegistrationNumber);
+            UpdateEmptyLot(slot);
         }
 
         public List<string> GetRegistrationNumbersByCarColor(string color)
@@ -54,7 +55,7 @@ namespace ParkingLot.App.Models
 
         public int GetSlotByRegistrationNumber(string registration)
         {
-            if (RegistrationToParkingSlotMapping.ContainsKey(registration)) return RegistrationToParkingSlotMapping[registration];
+            if (RegistrationToParkingLotMapping.ContainsKey(registration)) return RegistrationToParkingLotMapping[registration];
             return 0;
         }
 
@@ -67,9 +68,9 @@ namespace ParkingLot.App.Models
                 var registrations = ColorToRegistrationsMapping[color.ToLower()];
                 foreach (var registration in registrations)
                 {
-                    if (RegistrationToParkingSlotMapping.ContainsKey(registration))
+                    if (RegistrationToParkingLotMapping.ContainsKey(registration))
                     {
-                        list.Add(RegistrationToParkingSlotMapping[registration]);
+                        list.Add(RegistrationToParkingLotMapping[registration]);
                     }
                 }
             }
@@ -77,28 +78,40 @@ namespace ParkingLot.App.Models
             return list;
         }
 
+        public Dictionary<int, Car> GetCarsBySlotMapping()
+        {
+            var dataMap= new Dictionary<int, Car>();
+            foreach (var registerToSlotKeyValue in RegistrationToParkingLotMapping)
+            {
+                var car = Cars[registerToSlotKeyValue.Key];
+                dataMap.Add(registerToSlotKeyValue.Value, car);
+            }
+
+            return dataMap;
+        }
+
 
         public void SetEmptyLots(int n)
         {
-            for (var i = 1; i <= n; i++) EmptyLots.Add(i);
+            for (var i = 1; i <= n; i++) EmptyParkingLots.Add(i);
         }
 
         public int GetNextEmptyLot()
         {
             var lotNumber = 0;
-            if (EmptyLots.Any())
+            if (EmptyParkingLots.Any())
             {
-                lotNumber = EmptyLots.First();
-                EmptyLots.RemoveAt(0);
+                lotNumber = EmptyParkingLots.First();
+                EmptyParkingLots.RemoveAt(0);
             }
 
             return lotNumber;
         }
 
-        public void UpdateEmptyLot(int n)
+        private void UpdateEmptyLot(int n)
         {
-            EmptyLots.Add(n);
-            EmptyLots.Sort();
+            EmptyParkingLots.Add(n);
+            EmptyParkingLots.Sort();
         }
     }
 }

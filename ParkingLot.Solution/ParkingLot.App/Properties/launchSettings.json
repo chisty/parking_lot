@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ParkingLot.App": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\\\GitHub\\\\parking_lot\\\\functional_spec\\\\fixtures\\\\file_input.txt\""
+    }
+  }
+}

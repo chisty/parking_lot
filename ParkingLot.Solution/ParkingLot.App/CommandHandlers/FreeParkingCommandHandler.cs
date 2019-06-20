@@ -5,12 +5,12 @@ namespace ParkingLot.App.CommandHandlers
 {
     public class FreeParkingCommandHandler : ICommandHandler
     {
-        public void Handle(string input, CarParkingLot carParkingLot)
+        public void Handle(string input, ParkingLotManager parkingLotManager)
         {
             var tokens = input.Split(' ');
             if (tokens.Length == 2 && int.TryParse(tokens[1], out var slot))
             {
-                carParkingLot.LeaveParking(slot);
+                parkingLotManager.LeaveParking(slot);
                 Console.WriteLine($"Slot number {slot} is free");
             }
         }
