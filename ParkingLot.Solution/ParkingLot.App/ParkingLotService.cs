@@ -30,16 +30,7 @@ namespace ParkingLot.App
         }        
 
         public void RunFromFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                Console.WriteLine("File found. Path= "+filePath);
-            }
-            else
-            {
-                Console.WriteLine("File not found");
-            }
-
+        {            
             var lines = File.ReadAllLines(filePath);
             foreach (var line in lines)
             {

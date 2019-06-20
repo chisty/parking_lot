@@ -6,9 +6,7 @@ namespace ParkingLot.App
     public class Program
     {
         static void Main(string[] args)
-        {   
-            Console.WriteLine("Program Running");
-
+        {               
             var parkingLotService = new ParkingLotService();            
             if (args.Length > 0)
             {                
