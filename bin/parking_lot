@@ -7,11 +7,28 @@
 # This variable contains absolute path of this `parking_lot` script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-if [ $# -eq 0 ]
-  then
-	docker run -it --rm parking_lot_app
-else
-	docker run -it --rm -v $1:/opt/input.txt parking_lot_app /opt/input.txt
 
+
+
+#if [ $# -eq 0 ]
+ # then
+#	docker run -it --rm parking_lot_app
+#else
+#	docker run -it --rm -v $1:/opt/input.txt parking_lot_app /opt/input.txt
+#fi
+
+
+if	[ $# -eq 0 ]
+	then
+		docker run -it --rm parking_lot_app	
+else	
+	if	[ -f $DIR/$1 ]; then
+		docker run -it --rm -v $DIR/$1:/opt/input.txt parking_lot_app /opt/input.txt
+			
+	else
+		if 	[ -f $1 ]; then
+	    		docker run -it --rm -v $1:/opt/input.txt parking_lot_app /opt/input.txt
+		fi
+	fi
 fi
 
