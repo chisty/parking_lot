@@ -6,9 +6,8 @@
 # After this is run, bin/parking_lot
 # should Just Work.
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+cd $DIR/../ParkingLot.Solution/
+docker build -t parking_lot_app .
+docker images
 
-
-
-dotnet install
-dotnet build dir/sub/program.main
-dotnet run test
