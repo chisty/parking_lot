@@ -8,7 +8,7 @@ namespace ParkingLot.App
     public class ParkingLotService
     {
         private ParkingLotManager ParkingLotManager { get; }
-        private CommandHandlersFactory CommandHandlersFactory { get; set; }
+        private CommandHandlersFactory CommandHandlersFactory { get; }
 
         public ParkingLotService()
         {

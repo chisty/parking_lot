@@ -35,13 +35,23 @@ namespace ParkingLot.App.Models
 
         public void LeaveParking(int slot)
         {
-            var registrationNumber = RegistrationToParkingLotMapping.FirstOrDefault(f => f.Value == slot).Key;
-            RegistrationToParkingLotMapping.Remove(registrationNumber);
+            if (RegistrationToParkingLotMapping.ContainsValue(slot))
+            {
+                var registrationNumber = RegistrationToParkingLotMapping.FirstOrDefault(f => f.Value == slot).Key;
+                if (RegistrationToParkingLotMapping.ContainsKey(registrationNumber))
+                {
+                    RegistrationToParkingLotMapping.Remove(registrationNumber);
+                }
 
-            var car = Cars[registrationNumber];
-            Cars.Remove(registrationNumber);
+                if (Cars.ContainsKey(registrationNumber))
+                {
+                    var car = Cars[registrationNumber];
+                    Cars.Remove(registrationNumber);
 
-            ColorToRegistrationsMapping[car.Color.ToLower()].Remove(car.RegistrationNumber);
+                    ColorToRegistrationsMapping[car.Color.ToLower()].Remove(car.RegistrationNumber);
+                }
+            }
+            
             UpdateEmptyLot(slot);
         }
 
@@ -59,10 +69,9 @@ namespace ParkingLot.App.Models
             return 0;
         }
 
-
         public List<int> GetSlotNumbersOfCarByColor(string color)
         {
-            var list= new List<int>();
+            var list = new List<int>();
             if (ColorToRegistrationsMapping.ContainsKey(color.ToLower()))
             {
                 var registrations = ColorToRegistrationsMapping[color.ToLower()];
@@ -80,7 +89,7 @@ namespace ParkingLot.App.Models
 
         public Dictionary<int, Car> GetCarsBySlotMapping()
         {
-            var dataMap= new Dictionary<int, Car>();
+            var dataMap = new Dictionary<int, Car>();
             foreach (var registerToSlotKeyValue in RegistrationToParkingLotMapping)
             {
                 var car = Cars[registerToSlotKeyValue.Key];
@@ -89,7 +98,6 @@ namespace ParkingLot.App.Models
 
             return dataMap;
         }
-
 
         public void SetEmptyLots(int n)
         {
